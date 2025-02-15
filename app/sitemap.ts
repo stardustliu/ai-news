@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const host = headersList.get('host') || ''
   const { env } = getCloudflareContext()
   const runEnv = env.NEXTJS_ENV
-  const pastDays = getPastDays(keepDays * 12)
+  const pastDays = getPastDays(keepDays)
   const posts = (await Promise.all(
     pastDays.map(async (day) => {
       const post = await env.HACKER_NEWS_KV.get(`content:${runEnv}:hacker-news:${day}`, 'json')
@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: host,
+      url: `https://${host}`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
