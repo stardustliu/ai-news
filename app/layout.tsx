@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { podcastDescription, podcastTitle } from '@/config'
-import { Rss } from 'lucide-react'
+import { Github, Rss } from 'lucide-react'
 import Link from 'next/link'
 import './globals.css'
 
@@ -30,6 +30,15 @@ export default function RootLayout({
               title="RSS Feed"
             >
               <Rss className="w-6 h-6 font-bold" />
+            </Link>
+            <Link
+              href="https://github.com/ccbikai/hacker-news"
+              className="text-zinc-700 hover:text-zinc-900 transition-colors ml-2"
+              title="GitHub"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="w-6 h-6 font-bold" />
             </Link>
           </div>
           <p className="text-md text-gray-500 my-4">{podcastDescription}</p>
