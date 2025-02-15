@@ -7,6 +7,16 @@ import './globals.css'
 export const metadata: Metadata = {
   title: podcastTitle,
   description: podcastDescription,
+  alternates: {
+    types: {
+      'application/rss+xml': [
+        {
+          url: '/rss.xml',
+          title: podcastTitle,
+        },
+      ],
+    },
+  },
 }
 
 export default function RootLayout({
