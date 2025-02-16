@@ -4,7 +4,7 @@ import { podcastTitle } from '@/config'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import { notFound } from 'next/navigation'
 
-export const dynamic = 'force-dynamic'
+export const dynamicParams = true
 export const revalidate = 300
 
 // 生成页面的元数据
