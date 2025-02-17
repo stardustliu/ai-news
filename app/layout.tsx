@@ -34,14 +34,14 @@ export default function RootLayout({
             <Link href="/" title="Home">
               <h1 className="text-2xl font-bold text-zinc-800">{podcastTitle}</h1>
             </Link>
-            <Link
+            <a
               href="/rss.xml"
               className="text-orange-500 hover:text-orange-700 transition-colors ml-2"
               title="RSS Feed"
             >
               <Rss className="w-6 h-6 font-bold" />
-            </Link>
-            <Link
+            </a>
+            <a
               href="https://github.com/ccbikai/hacker-news"
               className="text-zinc-700 hover:text-zinc-900 transition-colors ml-2"
               title="GitHub"
@@ -49,7 +49,7 @@ export default function RootLayout({
               rel="noopener noreferrer"
             >
               <Github className="w-6 h-6 font-bold" />
-            </Link>
+            </a>
           </div>
           <p className="text-md text-gray-500 my-4">{podcastDescription}</p>
         </header>
