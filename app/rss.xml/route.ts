@@ -43,7 +43,7 @@ export async function GET() {
       description: post.podcastContent || '',
       url: `https://${host}/post/${post.date}`,
       guid: `https://${host}/post/${post.date}`,
-      date: new Date(post.date || post.updatedAt),
+      date: new Date(post.updatedAt || post.date),
       enclosure: {
         url: `${env.NEXT_STATIC_HOST}/${post.audio}?t=${post.updatedAt}`,
         type: 'audio/mpeg',
