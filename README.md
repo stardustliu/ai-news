@@ -1,4 +1,4 @@
-# Hacker News 中文播报
+# Hacker News 每日播报
 
 一个基于 AI 的 Hacker News 中文播客项目，每天自动抓取 Hacker News 热门文章，通过 AI 生成中文总结并转换为播客内容。
 
@@ -79,6 +79,12 @@ pnpm deploy
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request!
+
+## 赞助
+
+1. [在 Telegram 关注我](https://t.me/miantiao_me)
+2. [在 𝕏 上关注我](https://404.li/x)
+3. [在 GitHub 赞助我](https://github.com/sponsors/ccbikai)
 
 ## 免责声明
 
