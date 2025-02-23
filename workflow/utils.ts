@@ -26,6 +26,8 @@ export async function getHackerNewsTopStories(today: string) {
     },
   })
   const text = await response.text()
+  console.info('get HackerNews html:', text)
+
   const $ = cheerio.load(text)
   const stories: Story[] = $('.athing.submission').map((i, el) => ({
     id: $(el).attr('id'),

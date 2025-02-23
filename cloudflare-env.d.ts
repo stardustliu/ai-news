@@ -2,6 +2,7 @@
 
 interface CloudflareEnv {
 	HACKER_NEWS_KV: KVNamespace;
+	NEXT_CACHE_WORKERS_KV: KVNamespace;
 	NEXTJS_ENV: string;
 	NEXT_STATIC_HOST: string;
 	JINA_KEY: string;
