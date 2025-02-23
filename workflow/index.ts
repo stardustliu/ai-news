@@ -37,7 +37,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
     const maxTokens = Number.parseInt(this.env.OPENAI_MAX_TOKENS || '4096')
 
     const stories = await step.do(`get top stories ${today}`, retryConfig, async () => {
-      return await getHackerNewsTopStories(today)
+      return await getHackerNewsTopStories(today, this.env.JINA_KEY)
     })
 
     if (!stories.length) {
