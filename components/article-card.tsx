@@ -2,11 +2,12 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import Markdown from 'react-markdown'
 
-const AudioPlayer = lazy(() => import('player.style/tailwind-audio/react'))
+const AudioPlayer = dynamic(() => import('player.style/tailwind-audio/react'), { ssr: false })
 
 interface ArticleCardProps {
   article: Article
@@ -55,10 +56,10 @@ export function ArticleCard({ article, staticHost = '', showSummary = false, sho
               <TabsTrigger value="podcast" className="font-bold">播客</TabsTrigger>
               <TabsTrigger value="references" className="font-bold">参考</TabsTrigger>
             </TabsList>
-            <TabsContent value="summary" className="prose prose-zinc max-w-none py-4">
+            <TabsContent value="summary" className="prose prose-sm prose-zinc max-w-none py-4">
               <Markdown>{article.blogContent}</Markdown>
             </TabsContent>
-            <TabsContent value="podcast" className="prose prose-zinc max-w-none whitespace-pre-line py-4">
+            <TabsContent value="podcast" className="prose prose-sm prose-zinc max-w-none whitespace-pre-line py-4">
               {article.podcastContent}
             </TabsContent>
             <TabsContent value="references" className="py-4">
