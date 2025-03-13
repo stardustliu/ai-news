@@ -8,7 +8,7 @@
 
 订阅地址: <https://hacker-news.agi.li/rss.xml>
 
-博客版地址: <https://hacker-news.agi.li/blog.xml>
+博客版订阅地址: <https://hacker-news.agi.li/blog.xml>
 
 ## 主要特性
 
