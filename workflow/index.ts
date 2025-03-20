@@ -119,6 +119,12 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
 
       await this.env.HACKER_NEWS_R2.put(podcastKey, audio)
 
+      const podcast = await this.env.HACKER_NEWS_R2.head(podcastKey)
+
+      if (!podcast || podcast.size < audio.size) {
+        throw new Error('podcast not found')
+      }
+
       return 'OK'
     })
 
