@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
   }
 
   const title = post.title
-  const description = post.podcastContent?.slice(0, 200) || title
+  const description = post.introContent || post.podcastContent?.slice(0, 200) || title
   const url = `${env.NEXT_STATIC_HOST}/post/${post.date}`
 
   return {

@@ -18,7 +18,7 @@ interface ArticleCardProps {
 
 export function ArticleCard({ article, staticHost = '', showSummary = false, showFooter = false }: ArticleCardProps) {
   const audio = `${staticHost}/${article.audio}?t=${article.updatedAt}`
-  const summary = article.podcastContent?.split('\n')?.[0]
+  const summary = article.introContent || article.podcastContent?.split('\n')?.[0]
 
   return (
     <Card className="mb-4">

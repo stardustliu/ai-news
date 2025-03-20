@@ -28,7 +28,6 @@ export const summarizePodcastPrompt = `
 - 结尾有告别语并提醒订阅。
 
 【输出要求】  
-- 全文不要超过 4000 字。
 - 输出纯文本内容，不要使用 Markdown 格式。
 - 固定以以下开场语开始："各位听众：大家好，这里是${podcastTitle}，今天我们"
 `.trim()
@@ -44,4 +43,19 @@ export const summarizeBlogPrompt = `
 【输出要求】  
 - 使用优雅的简体中文撰写，专业术语可保留英文。
 - 直接返回 Markdown 格式的正文内容，不要使用 \`\`\`markdown 包裹正文内容。
+`.trim()
+
+export const introPrompt = `
+你是一名 Hacker News 中文播客的编辑，为播客文字稿生成极简摘要。
+
+【工作目标】  
+
+- 用简洁明了的简体中文给播客文字稿生成极简摘要。
+- 忽略评论区的讨论内容。
+
+【输出要求】  
+
+- 输出纯文本内容，不要使用 Markdown 格式。
+- 只需要返回摘要内容，其他内容都不需要。
+- 摘要内容不要超过 100 字。
 `.trim()

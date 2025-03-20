@@ -61,6 +61,7 @@ AUDIO_VOICE_ID=zh-CN-XiaoxiaoNeural
 ```bash
 # 开发工作流
 pnpm dev:workflow
+# curl "http://localhost:8787/workflow" # 手动触发工作流
 
 # 开发 Web 页面
 pnpm dev

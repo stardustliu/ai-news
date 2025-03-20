@@ -4,7 +4,7 @@ import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { synthesize } from '@echristian/edge-tts'
 import { generateText } from 'ai'
 import { WorkflowEntrypoint } from 'cloudflare:workers'
-import { summarizeBlogPrompt, summarizePodcastPrompt, summarizeStoryPrompt } from './prompt'
+import { introPrompt, summarizeBlogPrompt, summarizePodcastPrompt, summarizeStoryPrompt } from './prompt'
 import { getHackerNewsStory, getHackerNewsTopStories } from './utils'
 
 interface Params {
@@ -106,6 +106,19 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
 
     console.info('blog content:\n', isDev ? blogContent : blogContent.slice(0, 100))
 
+    const introContent = await step.do('create intro content', retryConfig, async () => {
+      const { text, usage, finishReason } = await generateText({
+        model: openai(this.env.OPENAI_MODEL!),
+        system: introPrompt,
+        prompt: podcastContent,
+        maxRetries: 3,
+      })
+
+      console.info(`create intro content success`, { text, usage, finishReason })
+
+      return text
+    })
+
     const contentKey = `content:${runEnv}:hacker-news:${today}`
     const podcastKey = `${today.replaceAll('-', '/')}/${runEnv}/hacker-news-${today}.mp3`
 
@@ -137,6 +150,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
         stories,
         podcastContent,
         blogContent,
+        introContent,
         audio: podcastKey,
         updatedAt: Date.now(),
       }))
