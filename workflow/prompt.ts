@@ -43,6 +43,7 @@ export const summarizeBlogPrompt = `
 【输出要求】  
 - 使用优雅的简体中文撰写，专业术语可保留英文。
 - 直接返回 Markdown 格式的正文内容，不要使用 \`\`\`markdown 包裹正文内容。
+- 不要返回前言，直接返回正文内容。
 `.trim()
 
 export const introPrompt = `
@@ -57,5 +58,5 @@ export const introPrompt = `
 
 - 输出纯文本内容，不要使用 Markdown 格式。
 - 只需要返回摘要内容，其他内容都不需要。
-- 摘要内容不要超过 100 字。
+- 摘要内容不要超过 200 字。
 `.trim()
