@@ -106,6 +106,8 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
 
     console.info('blog content:\n', isDev ? blogContent : blogContent.slice(0, 100))
 
+    await step.sleep('Give AI a break', isDev ? '2 seconds' : '10 seconds')
+
     const introContent = await step.do('create intro content', retryConfig, async () => {
       const { text, usage, finishReason } = await generateText({
         model: openai(this.env.OPENAI_MODEL!),
