@@ -41,7 +41,7 @@ export async function GET() {
     feed.addItem({
       title: post.title || '',
       description: post.introContent || post.podcastContent || '',
-      content: post.podcastContent || '',
+      content: `<div style="word-break: break-all;white-space: pre-line;">${post.podcastContent || ''}</div>`,
       url: `https://${host}/post/${post.date}`,
       guid: `https://${host}/post/${post.date}`,
       date: new Date(post.updatedAt || post.date),
