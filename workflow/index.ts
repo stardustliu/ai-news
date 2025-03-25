@@ -5,10 +5,11 @@ import { synthesize } from '@echristian/edge-tts'
 import { generateText } from 'ai'
 import { WorkflowEntrypoint } from 'cloudflare:workers'
 import { introPrompt, summarizeBlogPrompt, summarizePodcastPrompt, summarizeStoryPrompt } from './prompt'
-import { getHackerNewsStory, getHackerNewsTopStories } from './utils'
+import { fetchers } from './utils'
 
 interface Params {
   today?: string
+  source?: string
 }
 
 const retryConfig: WorkflowStepConfig = {
@@ -27,6 +28,13 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
     const runEnv = this.env.NEXTJS_ENV || 'production'
     const isDev = runEnv === 'development'
     const today = event.payload.today || new Date().toISOString().split('T')[0]
+    const source = event.payload.source || 'hacker-news'
+
+    const fetcher = fetchers[source]
+    if (!fetcher) {
+      throw new Error(`No fetcher found for source: ${source}`)
+    }
+
     const openai = createOpenAICompatible({
       name: 'openai',
       baseURL: this.env.OPENAI_BASE_URL!,
@@ -37,7 +45,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
     const maxTokens = Number.parseInt(this.env.OPENAI_MAX_TOKENS || '4096')
 
     const stories = await step.do(`get top stories ${today}`, retryConfig, async () => {
-      return await getHackerNewsTopStories(today, this.env.JINA_KEY)
+      return await fetcher.getTopStories(today, this.env.JINA_KEY)
     })
 
     if (!stories.length) {
@@ -51,7 +59,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
 
     for (const story of stories) {
       const storyResponse = await step.do(`get story ${story.id}: ${story.title}`, retryConfig, async () => {
-        return await getHackerNewsStory(story, maxTokens, this.env.JINA_KEY)
+        return await fetcher.getStory(story, maxTokens, this.env.JINA_KEY)
       })
 
       console.info(`get story ${story.id} content success`)
@@ -81,7 +89,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
         maxRetries: 3,
       })
 
-      console.info(`create hacker news podcast content success`, { text, usage, finishReason })
+      console.info(`create ${source} podcast content success`, { text, usage, finishReason })
 
       return text
     })
@@ -99,7 +107,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
         maxRetries: 3,
       })
 
-      console.info(`create hacker news daily blog content success`, { text, usage, finishReason })
+      console.info(`create ${source} daily blog content success`, { text, usage, finishReason })
 
       return text
     })
@@ -121,8 +129,8 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
       return text
     })
 
-    const contentKey = `content:${runEnv}:hacker-news:${today}`
-    const podcastKey = `${today.replaceAll('-', '/')}/${runEnv}/hacker-news-${today}.mp3`
+    const contentKey = `content:${runEnv}:${source}:${today}`
+    const podcastKey = `${today.replaceAll('-', '/')}/${runEnv}/${source}-${today}.mp3`
 
     await step.do('create podcast audio', { ...retryConfig, timeout: '5 minutes' }, async () => {
       const { audio } = await synthesize({
@@ -149,6 +157,7 @@ export class HackerNewsWorkflow extends WorkflowEntrypoint<CloudflareEnv, Params
       await this.env.HACKER_NEWS_KV.put(contentKey, JSON.stringify({
         date: today,
         title: `${podcastTitle} ${today}`,
+        source,
         stories,
         podcastContent,
         blogContent,
