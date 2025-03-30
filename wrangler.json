@@ -47,7 +47,8 @@
     {
       "name": "hacker-news",
       "binding": "HACKER_NEWS_WORKFLOW",
-      "class_name": "HackerNewsWorkflow"
+      "class_name": "HackerNewsWorkflow",
+      "entrypoint": "workflow/index.ts"
     }
   ],
   "r2_buckets": [

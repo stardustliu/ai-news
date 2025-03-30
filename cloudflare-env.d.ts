@@ -5,13 +5,10 @@ interface CloudflareEnv {
 	NEXT_CACHE_WORKERS_KV: KVNamespace;
 	NEXTJS_ENV: string;
 	NEXT_STATIC_HOST: string;
-	JINA_KEY: string;
-	AUDIO_SPEED: string;
-	AUDIO_VOICE_ID: string;
-	OPENAI_MAX_TOKENS: string;
 	OPENAI_API_KEY: string;
 	OPENAI_BASE_URL: string;
 	OPENAI_MODEL: string;
+	AUDIO_VOICE_ID: string;
 	HACKER_NEWS_R2: R2Bucket;
 	ASSETS: Fetcher;
 	HACKER_NEWS_WORKFLOW: Workflow;
